@@ -27,6 +27,24 @@ double getAverageTemperature(vector<WeatherReport> reports) {
   return avg;
 }
 
+double getMaximumTemperature(map<string,vector<WeatherReport>> byLocation){
+  map<string, vector<WeatherReport>> :: iterator it;
+  double max = -9999;
+  for(it = byLocation.begin(); it != byLocation.end(); it++) { 
+      string location = it->first; //first is the key, the location
+      vector<WeatherReport> reports = it->second; //second is the value, the reports for this location
+      //cout << location << " - " << reports.size() << endl;
+
+      //STUDENT: cout the average temperature for each location
+      double locationAverage = getAverageTemperature(reports);
+
+      if (max < locationAverage){
+        max = locationAverage;
+        }    
+   }
+  return max;
+}
+
 
 vector<string> splitLine(string line) {
   stringstream lineStream(line);
@@ -101,23 +119,18 @@ int main() {
   //Here we will loop over each item in the map.  An item is a key/value pair.
   //we need to 
   map<string, vector<WeatherReport>>::iterator it; //iterator that will hold the item from the map
-  double max = -9999;
-  for(it = byLocation.begin(); it != byLocation.end(); it++) 
-  { //each iteration, it will point to the next key/value pair
+  for(it = byLocation.begin(); it != byLocation.end(); it++) { 
       string location = it->first; //first is the key, the location
       vector<WeatherReport> reports = it->second; //second is the value, the reports for this location
-      cout << location << " - " << reports.size() << endl;
+      //cout << location << " - " << reports.size() << endl;
 
       //STUDENT: cout the average temperature for each location
       double locationAverage = getAverageTemperature(reports);
-      cout << " average temp for " << location << " is " << locationAverage << endl;
-
-      //STUDENT: find the location with the highest average temperature
-      cout << " max temperature is " << max << endl;
-        if (max < locationAverage){
-        max = locationAverage;
-      }
+      cout << " average temp for " << location << " is " << locationAverage << endl; 
         
   }
 
+  //STUDENT: find the location with the highest average temperature
+  double max = getMaximumTemperature(byLocation);
+  cout << " max temperature is " << max << endl;
 }
